@@ -9,8 +9,7 @@ media
 # Backup files #
 *.bak
 
-tasks.txt
-Checklist.md
+checklist.md
 
 # If you are using PyCharm #
 # User-specific stuff
