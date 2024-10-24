@@ -1,12 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Item
-from .serializers import ItemSerializer
+from .models import Products
+from .serializers import ProductsSerializer
 
 
-class ItemsView(APIView):
+class ProductsView(APIView):
 
     def get(self, request):
-        items = Item.objects.all()
-        serializer = ItemSerializer(items, many=True)
+        items = Products.objects.all()
+        serializer = ProductsSerializer(items, many=True)
         return Response(serializer.data)
