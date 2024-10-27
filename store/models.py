@@ -23,7 +23,7 @@ class Products(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
-        ordering = ['create_at', ]
+        ordering = ['-create_at', ]
 
 
     def __str__(self):
