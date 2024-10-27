@@ -12,8 +12,9 @@ class Categories(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.title)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -34,8 +35,10 @@ class Products(models.Model):
         ordering = ['-create_at', ]
 
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.title + uuid.uiid4)
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title + str(uuid.uuid4()))
+        super().save(*args, **kwargs)
 
 
     def __str__(self):
