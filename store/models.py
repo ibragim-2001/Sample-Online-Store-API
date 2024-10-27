@@ -13,7 +13,8 @@ class Categories(models.Model):
         verbose_name_plural = 'Категории'
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        if not self.slug:
+            self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -37,7 +38,7 @@ class Products(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title + str(uuid.uuid4()))
+            self.slug = slugify(self.title + '-' + str(uuid.uuid4()))
         super().save(*args, **kwargs)
 
 
