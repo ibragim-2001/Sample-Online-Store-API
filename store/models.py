@@ -25,7 +25,7 @@ class Products(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название товара')
     description = models.TextField(verbose_name='Описание товара')
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Цена') 
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='category', verbose_name='Категория')
     create_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления товара')
     update_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления товара')
@@ -37,8 +37,8 @@ class Products(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title + '-' + str(uuid.uuid4()))
+        if not self.slug.endswith('-product'):
+            self.slug = slugify(self.title + '-' + str(uuid.uuid4())+ '-' + 'products')
         super().save(*args, **kwargs)
 
 
