@@ -46,3 +46,17 @@ class ProductDetailView(APIView):
         product = get_object_or_404(Products, slug=slug)
         serializer = ProductsSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
+  
+    
+    def patch(self, request, slug):
+        product = get_object_or_404(Products, slug=slug)
+        serializer = ProductsSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+            
+    
+    def delete(self, request, slug):
+        product = get_object_or_404(Products, slug=slug)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
