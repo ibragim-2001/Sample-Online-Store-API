@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 
 class Categories(models.Model):
@@ -44,3 +45,22 @@ class Products(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class Cart(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Корзина пользователя'
+        verbose_name_plural = 'Корзины пользователей'
+
+    def __str__(self):
+        return str(self.id)
+    
+
+class CartItems(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, blank=True, null=True, related_name='cartitems')
+    quantity = models.IntegerField(default=0)
