@@ -21,7 +21,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'store.apps.StoreConfig',
-    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
@@ -88,7 +87,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 STATIC_URL = '/static/'
 
