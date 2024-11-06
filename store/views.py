@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 
-from .models import Products
-from .serializers import ProductsSerializer
+from .models import Products, Cart
+from .serializers import ProductsSerializer, CartSerilizer
 
 
 
@@ -50,13 +50,22 @@ class ProductDetailView(APIView):
     
     def patch(self, request, slug):
         product = get_object_or_404(Products, slug=slug)
-        serializer = ProductsSerializer(product, data=request.data)
+        serializer = ProductsSerializer(product, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
             
     
     def delete(self, request, slug):
         product = get_object_or_404(Products, slug=slug)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+class CartView(APIView):
+    
+    def get(self, request):
+        cart = Cart.objects.get_or_create(user=request.user)
+        serializer = CartSerilizer(cart, many=True)
+        return Response({'data': serializer.data})
